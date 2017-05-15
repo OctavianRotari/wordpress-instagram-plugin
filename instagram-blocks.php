@@ -9,11 +9,33 @@
  * license: gpl2
  */
 
-require 'vendor/autoload.php';
+// Add the JS
+function theme_name_scripts() {
+    wp_enqueue_script( 'script-name', plugins_url('instagram-blocks') . '/js/instagram_img.js', array('jquery'), null );
+    wp_localize_script( 'script-name', 'MyAjax', array(
+	// URL to wp-admin/admin-ajax.php to process the request
+	'ajaxurl' => admin_url( 'admin-ajax.php' ),
+	// generate a nonce with a unique ID "myajax-post-comment-nonce"
+	// so that you can check it later when an AJAX request is sent
+	'security' => wp_create_nonce( 'my-special-string' )
+    ));
+}
+add_action( 'wp_enqueue_scripts', 'theme_name_scripts' );
+// The function that handles the AJAX request
+function my_action_callback() {
+    check_ajax_referer( 'my-special-string', 'security' );
 
-$instagramBlocks = new InstagramBlocks();
+    if(isset($_GET['action'])) {
+	$instagramBlocks = new InstagramBlocks();
+	$media_array = $instagramBlocks->returnMediaArray();
+	echo json_encode($media_array);
+	die(); // this is required to return a proper result
+    } else {
+	echo('No images');
+    }
+}
+add_action( 'wp_ajax_my_action', 'my_action_callback' );
 
-add_shortcode('somethingFunny', array($instagramBlocks, 'somethingFunny'));
 
 class InstagramBlocks {
     const API_URL = 'https://api.instagram.com/v1/';
@@ -25,21 +47,22 @@ class InstagramBlocks {
 	$index_photos = 5;
     }
 
-    function somethingFunny() {
-	$media = $this->getUserMedia();
+    function returnMediaArray() {
+	$media = $this->_getUserMedia();
 	$data = $media->data;
+	$images = [];
 
 	foreach ($data as $entry) {
-	    echo "<img src=\"{$entry->images->standard_resolution->url}\">";
+	    array_push($images, $entry->images->standard_resolution->url);
 	}
+	return $images;
     }
 
-    public function getUserMedia($limit = 100) {
+    protected function _getUserMedia($limit = 100) {
 	return $this->_makeCall('users/' . self::USER_ID . '/media/recent', ($id === 'self'), array('count' => $limit));
     }
 
     protected function _makeCall($function, $auth = false, $params = null, $method = 'GET') {
-
 	if (isset($params['count']) && $params['count'] < 1) {
 	    throw new InvalidParameterException('InstagramClient: you are trying to query 0 records!');
 	}
@@ -68,3 +91,4 @@ class InstagramBlocks {
 	return json_decode($jsonData);
     }
 }
+
