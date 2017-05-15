@@ -1,0 +1,61 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "62f6b8bd2be0a8b1f8a733ccaf715770",
+    "packages": [
+        {
+            "name": "andreyco/instagram",
+            "version": "3.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Andreyco/Instagram-for-PHP.git",
+                "reference": "47b322bd3be98ca24f9ca637f14632996dc2e7dc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Andreyco/Instagram-for-PHP/zipball/47b322bd3be98ca24f9ca637f14632996dc2e7dc",
+                "reference": "47b322bd3be98ca24f9ca637f14632996dc2e7dc",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Andreyco\\Instagram\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-4-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Andrej Badin",
+                    "email": "contact@andrejbadin.com",
+                    "homepage": "http://andrejbadin.com"
+                }
+            ],
+            "description": "An easy-to-use PHP Class for accessing Instagram's API.",
+            "homepage": "https://github.com/Andreyco/Instagram-for-PHP",
+            "keywords": [
+                "api",
+                "instagram"
+            ],
+            "time": "2017-04-13T10:32:53+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}
