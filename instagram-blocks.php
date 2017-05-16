@@ -39,8 +39,8 @@ add_action( 'wp_ajax_my_action', 'my_action_callback' );
 
 class InstagramBlocks {
     const API_URL = 'https://api.instagram.com/v1/';
-    const ACCESS_TOKEN = '1595597096.1677ed0.1655ece25cc5448184e67c1d8ce0b466';
-    const USER_ID = '1595597096';
+    const ACCESS_TOKEN = '1442376238.1677ed0.5d5106f0d6d04e44a335fb66d77a486c';
+    const USER_ID = '1442376238';
 
     function __construct() {
 	global $index_photos;

@@ -1,8 +1,14 @@
 jQuery(document).ready(function($) {
-	var imgDiv = "<div class='photo' id='photo-%img_id%' data-imgUrl='%img_url%'></div> ";
+	var img_div = "<div class='photo col-6' id='photo-%img_id%' data-img_url='%img_url%'></div> ";
+	var imgArray;
+	var imgArrayIndex = 0;
 
 	jQuery.when(getImgUrlArray()).done(function(data) {
-		addDivImgToHtml(data, setBackgroundImg);
+		imgArray = data;
+		addDivImgToHtml(imgArrayIndex, data, setBackgroundImg);
+		jQuery('.instagram-photos .show-more').click(function() {
+			showNextFive()
+		})
 	})
 
 	function getImgUrlArray() {
@@ -18,11 +24,10 @@ jQuery(document).ready(function($) {
 		});
 	}
 
-	function addDivImgToHtml(data, callback) {
-		for(var i = 0; i < 5; i++) {
-			console.log(data[i]);
-			var finalDiv = imgDiv.replace('%img_id%', i).replace('%img_url%', data[i])
-			jQuery('.instagram-photos .show-more').before(finalDiv);
+	function addDivImgToHtml(imgNum, data, callback) {
+		for(var i = imgNum; i < imgNum + 5; i++) {
+			var final_div = img_div.replace('%img_id%', i).replace('%img_url%', data[i])
+			jQuery('.instagram-photos .show-more').before(final_div);
 		};
 		callback();
 	}
@@ -30,10 +35,16 @@ jQuery(document).ready(function($) {
 	function setBackgroundImg() {
 		jQuery('.photo').each(function() {
 			jQuery(this).css({
-				'background-image': 'url(' + this.dataset.imgUrl + ')',
+				'background-image': 'url(' + this.dataset.img_url + ')',
 				'background-size': 'cover'
 			});
 		})
+	}
+
+	function showNextFive() {
+		imgArrayIndex += 5;
+		$( ".photo" ).remove();
+		addDivImgToHtml(imgArrayIndex, imgArray, setBackgroundImg);
 	}
 });
 
